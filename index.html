@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Style Interactive Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #FFFFFF;
+            text-shadow: 0 0 10px #FFFFFF;
+            font-size: 48px;
+            margin: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00FF00;
+            text-shadow: 0 0 8px #00FF00;
+            opacity: 0.7;
+            font-size: 18px;
+            margin-top: 5px;
+            z-index: 2;
+        }
+
+        .token-address {
+            font-family: 'Roboto Mono', monospace;
+            color: #FFFFFF;
+            font-size: 14px;
+            margin-top: 10px;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .tap-to-copy {
+            font-family: 'Orbitron', sans-serif;
+            color: #CCCCCC;
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 2px;
+            z-index: 2;
+        }
+
+        .lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .line {
+            position: absolute;
+            width: 2px;
+            animation: move 5s linear infinite;
+            transition: all 0.3s ease;
+        }
+
+        .line.behind {
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .line.front {
+            z-index: 3;
+        }
+
+        .green-light {
+            background: rgba(0, 255, 0, 0.7);
+        }
+
+        .green-dark {
+            background: rgba(0, 128, 0, 0.8);
+        }
+
+        .green-medium {
+            background: rgba(0, 200, 0, 0.9);
+        }
+
+        .line:hover {
+            transform: scale(1.2) rotate(5deg);
+            width: 6px;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        .trail {
+            position: absolute;
+            width: 80px;
+            height: 2px;
+            pointer-events: none;
+            background: rgba(0, 255, 0, 0.3);
+            z-index: 0;
+            animation: fade 1s ease-out forwards;
+        }
+
+        @keyframes fade {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .footer {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            opacity: 0.7;
+            color: #FFFFFF;
+            text-decoration: underline;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="main-text">It is up to you now...</h1>
+        <h2 id="sub-text">We created the token, you do the rest...</h2>
+
+        <div id="token-address" class="token-address">
+            4xmf5YBugazzgeNr9xiHvAAAgusQqxY6HkJRQLqVPkac
+        </div>
+        <div class="tap-to-copy">(tap to copy)</div>
+
+        <div class="lines" id="lines-container"></div>
+    </div>
+
+    <div class="footer">
+        This is an experiment, just for fun, nothing more. If the community creates socials we will add them at the bottom of this page.
+    </div>
+
+    <script>
+        const linesContainer = document.getElementById('lines-container');
+        const mainText = document.getElementById('main-text');
+        const subText = document.getElementById('sub-text');
+        const tokenAddress = document.getElementById('token-address');
+        const linesCount = 40;
+        const colors = ['green-light', 'green-medium', 'green-dark'];
+
+        for (let i = 0; i < linesCount; i++) {
+            const line = document.createElement('div');
+            line.classList.add('line');
+            
+            const colorClass = colors[Math.floor(Math.random() * colors.length)];
+            line.classList.add(colorClass);
+
+            line.classList.add(Math.random() > 0.5 ? 'behind' : 'front');
+            line.style.height = `${Math.random() * 100 + 30}%`;
+            line.style.left = `${(i / linesCount) * 100}%`;
+            line.style.animationDuration = `${Math.random() * 4 + 3}s`;
+
+            linesContainer.appendChild(line);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+
+            const lines = document.querySelectorAll('.line');
+            lines.forEach((line, index) => {
+                const offset = (index / lines.length) * 100;
+
+                if (x < offset) {
+                    line.style.transform = `translateX(${x - offset}%) translateY(${y / 5 - 50}%)`;
+                } else {
+                    line.style.transform = `translateX(${offset - x}%) translateY(${y / 5 - 50}%)`;
+                }
+            });
+
+            mainText.style.transform = `translateX(${x / 10 - 5}%) translateY(${y / 10 - 5}%)`;
+            subText.style.transform = `translateX(${x / 20 - 2.5}%) translateY(${y / 20 - 2.5}%)`;
+        });
+
+        document.querySelectorAll('.line').forEach(line => {
+            line.addEventListener('mouseover', () => {
+                line.style.transform = `scale(1.2) rotate(${Math.random() * 10 - 5}deg)`;
+            });
+
+            line.addEventListener('mouseout', () => {
+                line.style.transform = '';
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = `${e.clientX - 40}px`;
+            trail.style.top = `${e.clientY}px`;
+
+            document.body.appendChild(trail);
+
+            setTimeout(() => {
+                trail.remove();
+            }, 1000);
+        });
+
+        tokenAddress.addEventListener('click', () => {
+            navigator.clipboard.writeText(tokenAddress.innerText);
+            const originalText = tokenAddress.innerText;
+            tokenAddress.innerText = "Address Copied!";
+            setTimeout(() => {
+                tokenAddress.innerText = originalText;
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
