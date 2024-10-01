@@ -8,7 +8,7 @@
     <meta name="keywords" content="$UTU, cryptocurrency, experiment, fun, community, blockchain, crypto project">
     <meta name="author" content="UTU Team">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
         body, html {
             margin: 0;
@@ -36,18 +36,16 @@
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Roboto Mono', monospace;
             color: #FFFFFF;
-            text-shadow: 0 0 10px #FFFFFF;
             font-size: 48px;
             margin: 0;
             z-index: 2;
         }
 
         h2 {
-            font-family: 'Orbitron', sans-serif;
-            color: #00FF00;
-            text-shadow: 0 0 8px #00FF00;
+            font-family: 'Roboto Mono', monospace;
+            color: #FFFFFF;
             opacity: 0.7;
             font-size: 18px;
             margin-top: 5px;
@@ -64,7 +62,7 @@
         }
 
         .tap-to-copy {
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Roboto Mono', monospace;
             color: #CCCCCC;
             font-size: 10px;
             opacity: 0.7;
@@ -96,16 +94,16 @@
             z-index: 3;
         }
 
-        .green-light {
-            background: rgba(0, 255, 0, 0.7);
+        .white-light {
+            background: rgba(255, 255, 255, 0.6);
         }
 
-        .green-dark {
-            background: rgba(0, 128, 0, 0.8);
+        .white-dark {
+            background: rgba(200, 200, 200, 0.8);
         }
 
-        .green-medium {
-            background: rgba(0, 200, 0, 0.9);
+        .white-medium {
+            background: rgba(220, 220, 220, 0.9);
         }
 
         .line:hover {
@@ -127,7 +125,7 @@
             width: 80px;
             height: 2px;
             pointer-events: none;
-            background: rgba(0, 255, 0, 0.3);
+            background: rgba(255, 255, 255, 0.3);
             z-index: 0;
             animation: fade 1s ease-out forwards;
         }
@@ -148,7 +146,7 @@
             text-align: center;
             width: 100%;
             bottom: 20px;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Roboto Mono', monospace;
             font-size: 14px;
             opacity: 0.7;
             color: #FFFFFF;
@@ -183,7 +181,7 @@
 
 <body>
     <div class="container">
-        <h1 id="main-text">It is up to you now...</h1>
+        <h1 id="main-text">It is up to u now...</h1>
         <h2 id="sub-text">We created the token, you do the rest...</h2>
 
         <div id="token-address" class="token-address">
@@ -207,7 +205,7 @@
         // Determine the number of lines based on screen width
         const isMobile = window.innerWidth < 768; 
         const linesCount = isMobile ? 10 : 30; // Fewer lines for mobile screens to avoid condensed appearance
-        const colors = ['green-light', 'green-medium', 'green-dark'];
+        const colors = ['white-light', 'white-medium', 'white-dark'];
 
         for (let i = 0; i < linesCount; i++) {
             const line = document.createElement('div');
